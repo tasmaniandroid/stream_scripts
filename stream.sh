@@ -4,7 +4,7 @@
 KEYFILE_DIRECTORY=$HOME"/.streamkeys/"
 
 #Below settings are defaults, feel free to change them
-DEFAULT_SERVICE="ustream"
+DEFAULT_SERVICE="twitch"
 DEFAULT_RES="1280x1024"
 DEFAULT_FPS="10"
 DEFAULT_DELAY="0"
@@ -139,7 +139,7 @@ ffmpeg  $VIDOFFSET \
 -s "$RES" \
 -r "$FPS" -i :0.0 \
 -vf "scale=iw/""$SCALE"":-1" \
--vsync 2 -async 1 \
+$SYNC_OPTIONS \
 -vcodec libx264 -preset "$PRESET" -pix_fmt yuyv422 \
 -acodec libmp3lame -ar 11025 \
 -threads 0 \
