@@ -10,10 +10,10 @@ DEFAULT_FPS="10"
 DEFAULT_DELAY="0"
 DEFAULT_PRESET="slow"
 DEFAULT_SCALE="2.5"
-DEFAULT_VIDOFFSET="-00:00:01.00"
+DEFAULT_VIDOFFSET="disabled"
 
 #uncomment below line to enable sync, may be needed
-SYNC_OPTIONS="-vsync 2 -async 1"
+#SYNC_OPTIONS="-vsync 2 -async 1"
 
 #Function to check key file locations, and set $STREAM_KEY based on service or -k overide
 KEY_FILE_CHECK() {
@@ -61,7 +61,7 @@ FPS="$DEFAULT_FPS"
 DELAY="$DEFAULT_DELAY"
 PRESET="$DEFAULT_PRESET"
 SCALE="$DEFAULT_SCALE"
-VIDOFFSET=$DEFAULT_VIDOFFSET
+VIDOFFSET="$DEFAULT_VIDOFFSET"
 #clear optind
 
 OPTIND=1
