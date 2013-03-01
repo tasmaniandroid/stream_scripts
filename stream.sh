@@ -52,6 +52,7 @@ SHOW_HELP() {
 -o "vidoffset" video offset in HH:MM:SS.SS format, can be negative. ex "-00.00.02.00" to delay video by 2 seconds
                relative to audio. commonly used to fix A/V sync issues. Defaults to '$DEFAULT_VIDOFFSET'
 -k "keyfile" use the named keyfile instead of the service default. usefull if you have multiple accounts ' 
+exit
 }
 
 #load defaults, do not edit these unless you have a good reason
@@ -70,7 +71,6 @@ while getopts "h?b:r:d:f:p:s:o:k:" opt; do
      case "$opt" in
          h|\?)
              SHOW_HELP
-             exit 0
              ;;
          b)  SERVICE="$OPTARG"
              ;;
@@ -112,7 +112,7 @@ fi
 
 
 #check if DELAY > 0, and sleap for DELAY seconds
-if [ "$DELAY" > 0 ]
+if [ "$DELAY" -gt "0" ]
 then
 	sleep "$DELAY"
 fi
