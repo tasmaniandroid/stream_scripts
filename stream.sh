@@ -59,7 +59,8 @@ SHOW_HELP() {
 -s "scale" scales video output down. 2 would be 1/2 the size, etc. Defaults to 1/'$DEFAULT_SCALE'
 -o "vidoffset" video offset in HH:MM:SS.SS format, can be negative. ex "-00.00.02.00" to delay video by 2 seconds
                relative to audio. commonly used to fix A/V sync issues. Defaults to '$DEFAULT_VIDOFFSET'
--k "keyfile" use the named keyfile instead of the service default. usefull if you have multiple accounts ' 
+-k "keyfile" Use the named keyfile instead of the service default. Usefull if you have multiple accounts with the same service.
+-w Wait for user input before starting stream.'
 exit
 }
 
@@ -76,7 +77,7 @@ VIDOFFSET="$DEFAULT_VIDOFFSET"
 OPTIND=1
 
 # Grab options
-while getopts "h?b:r:d:f:p:s:o:k:" opt; do
+while getopts "h?b:r:d:f:p:s:o:k:w" opt; do
      case "$opt" in
          h|\?)
              SHOW_HELP
@@ -96,6 +97,8 @@ while getopts "h?b:r:d:f:p:s:o:k:" opt; do
          o)  VIDOFFSET="$OPTARG"
              ;;
          k)  OVERRIDE_KEY="$OPTARG"
+             ;;
+         w)  WAIT="yes"
              ;;
      esac
 done
@@ -154,6 +157,12 @@ then
 else
 	VIDOFFSET=""
 
+fi
+
+# If wait is specified, wait for user to pres key before starting stream.
+if [ "$WAIT" = "yes" ]
+then
+	read -p "Press [Enter] key to start streaming " DUMMYVAR
 fi
 
 # Build command line for ffmpeg, and start streaming.
