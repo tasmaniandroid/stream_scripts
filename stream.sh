@@ -51,13 +51,13 @@ fi
 # Function to display help file
 SHOW_HELP() {
 	echo 'Flag options are as follows.
--b "ustream|twitch" Use ustream or twitch. Defaults to '$DEFAULT_SERVICE'
--r "resolution" capture resolution, eg 800x600. defaults to '$DEFAULT_RES'
--d "seconds" delay for x seconds before getting screen res, defaults to '$DEFAULT_DELAY' seconds
--f "framerate" framerate in fps for the stream, defaults to '$DEFAULT_FPS' FPS
--p "preset" encoding preset to use, defaults to '$DEFAULT_PRESET'
--s "scale" scales video output down. 2 would be 1/2 the size, etc. Defaults to 1/'$DEFAULT_SCALE'
--o "vidoffset" video offset in HH:MM:SS.SS format, can be negative. ex "-00.00.02.00" to delay video by 2 seconds
+-b "ustream|twitch|justin" Use ustream, twitch or justin. Defaults to '$DEFAULT_SERVICE'
+-r "resolution" Capture resolution, eg 800x600. defaults to '$DEFAULT_RES'
+-d "seconds" Delay for x seconds before getting screen res, defaults to '$DEFAULT_DELAY' seconds
+-f "framerate" Framerate in fps for the stream, defaults to '$DEFAULT_FPS' FPS
+-p "preset" Encoding preset to use, defaults to '$DEFAULT_PRESET'
+-s "scale" Scales video output down. 2 would be 1/2 the size, etc. Defaults to 1/'$DEFAULT_SCALE'
+-o "vidoffset" Video offset in HH:MM:SS.SS format, can be negative. ex "-00.00.02.00" to delay video by 2 seconds
                relative to audio. commonly used to fix A/V sync issues. Defaults to '$DEFAULT_VIDOFFSET'
 -k "keyfile" Use the named keyfile instead of the service default. Usefull if you have multiple accounts with the same service.
 -w Wait for user input before starting stream.'
