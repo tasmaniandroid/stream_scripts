@@ -131,24 +131,6 @@ else
 	exit 1
 fi
 
-
-
-
-# Check if $DELAY > 0, and sleap for DELAY seconds.
-# If $DELAY is 0, skip sleep entirely.
-if [ "$DELAY" -gt "0" ]
-then
-	sleep "$DELAY"
-fi
-
-# Check if screen res is set to automatic, and if so, grab screen res
-# for the root window. May need to be tweaked for multi-monitor
-if [ "$RES" = "auto" ]
-then
-	RES=$(xwininfo -root | grep 'geometry'| awk '{print $2;}')
-
-fi
-
 # Check if we have a vid offset to pass, and if so, pass it on.
 # Otherwise, do not pass option.
 if [ ! "$VIDOFFSET" = "disabled" ]
@@ -163,6 +145,23 @@ fi
 if [ "$WAIT" = "yes" ]
 then
 	read -p "Press [Enter] key to start streaming " DUMMYVAR
+fi
+
+
+# Check if $DELAY > 0, and sleap for DELAY seconds.
+# If $DELAY is 0, skip sleep entirely.
+if [ "$DELAY" -gt "0" ]
+then
+	echo "Delaying stream startup for $delay seconds"
+	sleep "$DELAY"
+fi
+
+# Check if screen res is set to automatic, and if so, grab screen res
+# for the root window. May need to be tweaked for multi-monitor
+if [ "$RES" = "auto" ]
+then
+	RES=$(xwininfo -root | grep 'geometry'| awk '{print $2;}')
+
 fi
 
 # Build command line for ffmpeg, and start streaming.
