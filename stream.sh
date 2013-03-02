@@ -173,7 +173,7 @@ ffmpeg  $VIDOFFSET \
 -vf "scale=iw/""$SCALE"":-1" \
 $SYNC_OPTIONS \
 -vcodec libx264 -preset "$PRESET" -pix_fmt yuyv422 \
--acodec libmp3lame -ar 11025 \
+-acodec libmp3lame -ar 44100 -ab 128k \
 -threads 0 \
 -f flv "$STREAM_URL"
 
