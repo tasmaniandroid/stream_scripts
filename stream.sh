@@ -111,7 +111,7 @@ then
 	KEY_FILE_CHECK
 	STREAM_URL="rtmp://1.272659.fme.ustream.tv/ustreamVideo/272659/$STREAM_KEY flashver=FMLE/3.0\20(compatible;\20FMSc/1.0)"
 
-elif [ "$SERVICE" = "twitch" ]
+elif [ "$SERVICE" = "twitch" -o "$SERVICE" = "justin" ]
 then
 
 	KEY_FILE_CHECK
