@@ -1,9 +1,16 @@
 #!/bin/bash
 
-# CopyrightWalter Zarnoch
+# Copyright 2013 Walter Zarnoch
+# Licensed to stream, not to kill.
+# You can modify this to your hearts content,
+# I just ask that you keep the full repository intact
+# to give credit where credit is due.
+
+# Directory where your keyfiles will be located
+# The $HOME is needed, since ~/ won't work all the time.
 KEYFILE_DIRECTORY=$HOME"/.streamkeys/"
 
-#Below settings are defaults, feel free to change them
+# Below settings are defaults, feel free to change them
 DEFAULT_SERVICE="twitch"
 DEFAULT_RES="1280x1024"
 DEFAULT_FPS="10"
@@ -12,13 +19,14 @@ DEFAULT_PRESET="slow"
 DEFAULT_SCALE="2.5"
 DEFAULT_VIDOFFSET="disabled"
 
-#uncomment below line to enable sync, may be needed
+# Uncomment the below line to enable sync, may be needed
 #SYNC_OPTIONS="-vsync 2 -async 1"
 
-#Function to check key file locations, and set $STREAM_KEY based on service or -k overide
+# Function to check key file locations.
+# Also sets $STREAM_KEY based on service name or -k overide
 KEY_FILE_CHECK() {
 
-#check for keyfile override
+# Check for keyfile override
 if [ ! -z "$OVERRIDE_KEY" ]
 then
 KEYFILE=$KEYFILE_DIRECTORY$OVERRIDE_KEY
@@ -26,7 +34,7 @@ else
 KEYFILE=$KEYFILE_DIRECTORY$SERVICE".key"
 fi
 
-#check if keyfile exists, prompt for creation and exit if it doesn't
+# Check if the keyfile exists, prompt for creation and exit if it doesn't
 if  [ ! -f $KEYFILE ]
 then
 	echo "$KEYFILE" 'not found.
@@ -40,7 +48,7 @@ else
 fi
 }
 
-#Function to display help file
+# Function to display help file
 SHOW_HELP() {
 	echo 'Flag options are as follows.
 -b "ustream|twitch" Use ustream or twitch. Defaults to '$DEFAULT_SERVICE'
@@ -55,7 +63,7 @@ SHOW_HELP() {
 exit
 }
 
-#load defaults, do not edit these unless you have a good reason
+# Load defaults, do not edit these unless you have a good reason
 SERVICE="$DEFAULT_SERVICE"
 RES="$DEFAULT_RES"
 FPS="$DEFAULT_FPS"
@@ -63,10 +71,11 @@ DELAY="$DEFAULT_DELAY"
 PRESET="$DEFAULT_PRESET"
 SCALE="$DEFAULT_SCALE"
 VIDOFFSET="$DEFAULT_VIDOFFSET"
-#clear optind
 
+# Clear optind
 OPTIND=1
-#grab options
+
+# Grab options
 while getopts "h?b:r:d:f:p:s:o:k:" opt; do
      case "$opt" in
          h|\?)
@@ -92,6 +101,11 @@ while getopts "h?b:r:d:f:p:s:o:k:" opt; do
 done
 
 
+# Check for keyfile and set $STREAM_URL based on service.
+# If you have a service you'd wish to add, such as  another RTMP
+# video service, add another elif before the final else statement
+# There is a commented out example for foostreams.
+# The default keyfile will be the same name as the service name.
 if [ "$SERVICE" = "ustream" ]
 then
 	KEY_FILE_CHECK
@@ -103,6 +117,12 @@ then
 	KEY_FILE_CHECK
 	STREAM_URL="rtmp://live-3c.justin.tv/app/$STREAM_KEY"
 
+#elif [ "$SERVICE" = "foostreams" ]
+#then
+#
+#	KEY_FILE_CHECK
+#	STREAM_URL="rtmp://foo.example.com/fooapp/$STREAM_KEY"
+#
 else
 	echo "Sorry, $SERVICE is an invalid service, please specify ustream, twitch, or justin."
 	exit 1
@@ -111,20 +131,23 @@ fi
 
 
 
-#check if DELAY > 0, and sleap for DELAY seconds
+# Check if $DELAY > 0, and sleap for DELAY seconds.
+# If $DELAY is 0, skip sleep entirely.
 if [ "$DELAY" -gt "0" ]
 then
 	sleep "$DELAY"
 fi
 
-#check if res is set to automatic, and if so, grab screen res
+# Check if screen res is set to automatic, and if so, grab screen res
+# for the root window. May need to be tweaked for multi-monitor
 if [ "$RES" = "auto" ]
 then
 	RES=$(xwininfo -root | grep 'geometry'| awk '{print $2;}')
 
 fi
 
-#Check if we have a vid offset to deal with, and if so, deal with it.
+# Check if we have a vid offset to pass, and if so, pass it on.
+# Otherwise, do not pass option.
 if [ ! "$VIDOFFSET" = "disabled" ]
 then
 	VIDOFFSET="-itsoffset $VIDOFFSET"
@@ -132,7 +155,8 @@ else
 	VIDOFFSET=""
 
 fi
-#build command line for ffmpeg
+
+# Build command line for ffmpeg, and start streaming.
 ffmpeg  $VIDOFFSET \
 -f alsa -ac 2 -i default  \
 -f x11grab \
@@ -144,4 +168,5 @@ $SYNC_OPTIONS \
 -acodec libmp3lame -ar 11025 \
 -threads 0 \
 -f flv "$STREAM_URL"
+
 exit
